@@ -24,7 +24,7 @@ pub async fn create_activity(pool: &PgPool, activity: Activity) -> Result<(), sq
 
 }
 
-pub async fn get_user_by_id(pool: &PgPool, activity_id: Uuid) -> Result<Activity, sqlx::Error> {
+pub async fn get_activity_by_id(pool: &PgPool, activity_id: Uuid) -> Result<Activity, sqlx::Error> {
     info!("DB Fetching Activity by ID");
 
     let activity = sqlx::query_as::<_, Activity>("SELECT * FROM activities WHERE id = $1")
