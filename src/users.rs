@@ -1,6 +1,6 @@
-use sqlx::{pool, PgPool};
+use sqlx::PgPool;
 use tracing::{info, error};
-use models::User;
+use models::{User, PublicUser};
 use uuid::Uuid;
 
 pub async fn create_user(pool: &PgPool, user: User) -> Result<(), sqlx::Error> {
@@ -20,7 +20,7 @@ pub async fn create_user(pool: &PgPool, user: User) -> Result<(), sqlx::Error> {
 
 }
 
-pub async fn get_user_by_id(pool: &PgPool, user_id: Uuid) -> Result<User, sqlx::Error> {
+pub async fn get_user_by_id(pool: &PgPool, user_id: Uuid) -> Result<PublicUser, sqlx::Error> {
     info!("DB Fetching User by ID");
 
     let user = sqlx::query_as::<_, User>("SELECT * FROM users WHERE id = $1")
@@ -28,9 +28,11 @@ pub async fn get_user_by_id(pool: &PgPool, user_id: Uuid) -> Result<User, sqlx::
                             .fetch_one(pool)
                             .await?;
 
+    let public_user: PublicUser = user.into();
+
     info!("User fetched and mapped, returning...");
 
-    Ok(user)
+    Ok(public_user)
 }
 
 pub async fn update_user(pool: &PgPool, id: Uuid, user: User) -> Result<(), sqlx::Error> {
