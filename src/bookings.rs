@@ -16,7 +16,7 @@ pub async fn create_booking(pool: &PgPool, booking: Booking) -> Result<(), sqlx:
 
     info!("DB Updated");
 
-        Ok(())
+    Ok(())
 
 }
 

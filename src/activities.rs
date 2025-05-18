@@ -20,7 +20,7 @@ pub async fn create_activity(pool: &PgPool, activity: Activity) -> Result<(), sq
 
     info!("DB Updated");
 
-        Ok(())
+    Ok(())
 
 }
 
